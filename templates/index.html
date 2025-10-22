@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Pokédex - Home{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+    <header>
+        <h1> Advanced Pokédex System</h1>
+        <p class="subtitle">SQL-Powered Data Analysis & Visualization</p>
+    </header>
+
+    <nav>
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('stats') }}">Analytics Dashboard</a>
+    </nav>
+
+    <div class="search-section">
+        <h2 style="margin-bottom: 15px;">Search & Filter</h2>
+        <form class="search-form" method="GET" action="{{ url_for('index') }}">
+            <input type1="text" name="search" placeholder="Search Pokémon..." value="{{ current_search }}">
+            <select name="type">
+                {% for type in types %}
+                <option value="{{ type }}" {% if type == current_type %}selected{% endif %}>
+                    {{ 'All Types' if type == 'all' else type }}
+                </option>
+                {% endfor %}
+            </select>
+            <select name="type2">
+                {% for type in types %}
+                <option value="{{ type }}" {% if type == current_type %}selected{% endif %}>
+                    {{ 'All Types' if type == 'all' else type }}
+                </option>
+                {% endfor %}
+            </select>
+            <button type="submit">🔍 Search</button>
+        </form>
+    </div>
+
+    <!--
+        Unneeded stats panel removed, maybe re-added later
+    <div class="stats-panel">
+        <h3> Query Results - Current Filter Statistics</h3>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Records</div>
+                <div class="stat-value">{{ stats['total_count'] }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Avg HP</div>
+                <div class="stat-value">{{ stats['avg_hp'] or 0 }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Avg Attack</div>
+                <div class="stat-value">{{ stats['avg_attack'] or 0 }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Avg Defense</div>
+                <div class="stat-value">{{ stats['avg_defense'] or 0 }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Strongest</div>
+                <div class="stat-value" style="font-size: 1.3rem;">{{ strongest }}</div>
+            </div>
+        </div>
+    </div>
+    -->
+
+    <h2 style="margin-bottom: 20px;">Pokémon Database ({{ stats['total_count'] }} results)</h2>
+    
+    <div class="pokemon-grid">
+        {% for pokemon in pokemon_list %}
+        <a href="{{ url_for('pokemon_detail', id=pokemon['id']) }}" style="text-decoration: none; color: inherit;">
+            <div class="pokemon-card">
+                <div class="pokemon-header">
+                    <span class="pokemon-id">#{{ '%03d' % pokemon['id'] }}</span>
+                    <span style="font-size: 2rem;">⚡</span>
+                </div>
+                <div class="pokemon-name">{{ pokemon['name'] }}</div>
+                <div class="pokemon-types">
+                    <span class="type-badge type-{{ pokemon['type1'] }}">{{ pokemon['type1'] }}</span>
+                    {% if pokemon['type2'] %}
+                    <span class="type-badge type-{{ pokemon['type2'] }}">{{ pokemon['type2'] }}</span>
+                    {% endif %}
+                </div>
+                <div class="pokemon-stats">
+                    <div class="stat-row">
+                        <span class="stat-name">HP</span>
+                        <span class="stat-val">{{ pokemon['hp'] }}</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-name">Attack</span>
+                        <span class="stat-val">{{ pokemon['attack'] }}</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-name">Defense</span>
+                        <span class="stat-val">{{ pokemon['defense'] }}</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-name">Special Attack</span>
+                        <span class="stat-val">{{ pokemon['sp_attack'] }}</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-name">Special Defense</span>
+                        <span class="stat-val">{{ pokemon['sp_defense'] }}</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-name">Speed</span>
+                        <span class="stat-val">{{ pokemon['speed'] }}</span>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

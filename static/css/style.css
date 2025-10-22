@@ -1,0 +1,208 @@
+/* =========================
+   Pixelmon Pokédex Skin (works with your current HTML)
+   ========================= */
+:root{
+  --shell-red:#D33A3A;
+  --shell-red-edge:#ff6b6b;
+  --shell-red-dark:#9f2f2f;
+
+  --cyan:#8FE5FF;         /* scanner light */
+  --cyan-deep:#51BFEA;
+
+  --ui-dark:#232734;      /* inner UI frame */
+  --ui-mid:#2F3442;       /* screen bezel */
+  --ui-surface:#1B1F2A;   /* screen bg */
+
+  --text:#E9EEF7;
+  --muted:#B4BCD0;
+
+  --r-lg:26px; --r-md:16px; --r-sm:10px;
+}
+
+/* reset */
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:#0e1118;
+  color:var(--text);
+  font-family: Inter, Segoe UI, system-ui, -apple-system, Arial, sans-serif;
+  padding:20px;
+}
+
+/* ===== OUTER SHELL (your .container) ===== */
+.container{
+  max-width: 1100px; margin: 0 auto;
+  background: linear-gradient(#da4545, #c73b3b 60%, var(--shell-red-dark));
+  border-radius: var(--r-lg);
+  border: 6px solid var(--shell-red-edge);
+  padding: 18px;
+  position: relative;
+  box-shadow: 0 18px 42px rgba(0,0,0,.45), 0 0 0 6px rgba(255,107,107,.22);
+}
+
+/* cyan “scanner” light on left side */
+.container::before{
+  content:""; position:absolute; left:14px; top:78px;
+  width:20px; height:20px; border-radius:50%;
+  background: radial-gradient(circle at 35% 35%, #fff 0 35%, var(--cyan) 36% 100%);
+  box-shadow: 0 0 18px var(--cyan), 0 0 36px rgba(143,229,255,.85);
+}
+
+.container{
+  --inset-pad: 14px;
+}
+.container .search-section,
+.container nav,
+.container header,
+.container h2,
+.container .pokemon-grid{
+  position: relative;
+  z-index: 1;
+}
+.container::after{
+  /* inner chassis behind content */
+  content:"";
+  position:absolute; inset:12px;
+  background: linear-gradient(#1e2230, #171b25);
+  border-radius: calc(var(--r-lg) - 8px);
+  box-shadow:
+    inset 0 0 0 3px rgba(0,0,0,.35),
+    inset 0 0 0 4px rgba(255,255,255,.06),
+    inset 0 0 0 6px rgba(143,229,255,.32); /* cyan rim */
+  z-index: 0;
+}
+
+/* ===== HEADER ===== */
+header{ text-align:left; margin: 6px 6px 14px 6px }
+header h1{
+  font-weight: 900;
+  letter-spacing:.3px;
+  text-shadow: 0 1px 0 rgba(0,0,0,.6);
+}
+.subtitle{ color: var(--muted); margin-top: 6px }
+
+/* ===== NAV (two buttons like Pixelmon) ===== */
+nav{
+  display:flex; gap:10px; flex-wrap:wrap;
+  margin: 8px 6px 14px 6px;
+}
+nav a{
+  text-decoration:none; font-weight:800;
+  padding:10px 16px; border-radius:999px;
+  background: linear-gradient(var(--cyan), var(--cyan-deep));
+  color:#041319; border:2px solid rgba(255,255,255,.08);
+  box-shadow: 0 8px 22px rgba(143,229,255,.32);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+nav a:hover{ transform: translateY(-2px); box-shadow: 0 10px 26px rgba(143,229,255,.42) }
+
+/* ===== “SCREEN” PANELS ===== */
+.search-section,
+.pokemon-grid{
+  background: var(--ui-mid);
+  border: 2px solid #586073;
+  border-radius: var(--r-md);
+  padding: 12px;
+  box-shadow: inset 0 0 0 2px rgba(0,0,0,.25);
+  margin: 0 6px 12px 6px;
+}
+
+/* top search box looks like the upper info area */
+.search-section h2{
+  font-size: 1rem; font-weight: 800; color:#fff;
+  margin-bottom: 8px;
+  border-bottom: 3px solid var(--cyan);
+  padding-bottom: 6px;
+}
+.search-form{ display:flex; gap:10px; flex-wrap:wrap }
+.search-form input, .search-form select{
+  background:#141824; color:var(--text);
+  border:1px solid #2b3342; border-radius:10px;
+  padding:10px 12px; min-width:220px; outline:none;
+}
+.search-form input:focus, .search-form select:focus{
+  border-color: var(--cyan-deep);
+  box-shadow: 0 0 0 3px rgba(143,229,255,.22);
+}
+.search-form button{
+  padding:10px 18px; border:0; border-radius:10px;
+  font-weight:900; cursor:pointer;
+  background: var(--shell-red-edge); color:#fff;
+  box-shadow: 0 8px 18px rgba(255,107,107,.3);
+  transition: transform .18s ease, filter .18s ease;
+}
+.search-form button:hover{ transform: translateY(-2px); filter: brightness(1.05) }
+
+/* list header */
+h2{ margin: 10px 6px 12px 12px; font-size:1rem; color:#dfe6f6; }
+
+/* ===== CARD GRID ===== */
+.pokemon-grid{
+  background: var(--ui-mid);
+}
+.pokemon-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+}
+
+/* single card like Pixelmon tile */
+.pokemon-card{
+  background: var(--ui-dark);
+  border: 1px solid #232938;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.04);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.pokemon-card:hover{
+  transform: translateY(-4px);
+  border-color: var(--cyan-deep);
+  box-shadow: 0 10px 22px rgba(0,0,0,.35), inset 0 0 0 3px rgba(143,229,255,.18);
+}
+
+/* header row in card */
+.pokemon-header{
+  display:flex; justify-content:space-between; align-items:center;
+  background: #1f2431; border:1px solid #2d3444;
+  border-radius:8px; padding:6px 8px; margin-bottom:10px;
+}
+.pokemon-id{ color: var(--muted); font-weight:800; }
+.pokemon-name{ font-size:1.15rem; font-weight:900; margin:8px 0 }
+
+/* type chips */
+.pokemon-types{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px }
+.type-badge{
+  padding:5px 10px; border-radius:999px; font-weight:900; font-size:.8rem;
+  color:#111; box-shadow: inset 0 -2px 0 rgba(0,0,0,.15), 0 4px 12px rgba(0,0,0,.18)
+}
+/* canonical colors for readability */
+.type-Normal{background:#A8A77A}
+.type-Fire{background:#EE8130}
+.type-Water{background:#6390F0;color:#fff}
+.type-Electric{background:#F7D02C}
+.type-Grass{background:#7AC74C}
+.type-Ice{background:#96D9D6}
+.type-Fighting{background:#C22E28;color:#fff}
+.type-Poison{background:#A33EA1;color:#fff}
+.type-Ground{background:#E2BF65}
+.type-Flying{background:#A98FF3}
+.type-Psychic{background:#F95587}
+.type-Bug{background:#A6B91A}
+.type-Rock{background:#B6A136}
+.type-Ghost{background:#735797;color:#fff}
+.type-Dragon{background:#6F35FC;color:#fff}
+.type-Dark{background:#705746;color:#fff}
+.type-Steel{background:#B7B7CE}
+.type-Fairy{background:#D685AD}
+
+/* stat grid inside card */
+.pokemon-stats{
+  background:#1b1f2a; border:1px solid #2b3342;
+  border-radius:8px; padding:8px; display:grid; grid-template-columns:1fr 1fr; gap:6px;
+}
+.stat-row{ display:flex; justify-content:space-between; }
+.stat-name{ color:#aeb6c7 }
+.stat-val{ font-weight:900 }
+
+/* links */
+a[style*="text-decoration: none"]{ text-decoration:none } /* keep your anchor inline style intention */
